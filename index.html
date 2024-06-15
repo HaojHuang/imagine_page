@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Sample efficient policy learning for manipulation in 3D">
+  <meta name="keywords" content="Equivariance, Geometric deep learning, Manipulation">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fourier Transporter: Bi-Equivariant Robotic Manipulation in 3D</title>
+  <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true}, "HTML-CSS": {minScaleAdjust: 100} });
+  </script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.png">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://haojhuang.github.io/">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Related Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://haojhuang.github.io/etp_page/">
+            Equivairant Transporter Net
+          </a>
+          <a class="navbar-item" href="https://arxiv.org/abs/2308.07948">
+            Leveraging Symmetries in Pick and Place
+          </a>
+          <a class="navbar-item" href="https://haojhuang.github.io/edge_grasp_page/">
+            Edge Grasp Network
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Fourier Transporter: Bi-Equivariant Robotic Manipulation in 3D</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://haojhuang.github.io/">Haojie Huang</a>,</span>
+            <span class="author-block">
+              <a href="https://owenhowell20.github.io/">Owen L. Howell</a><sup>$\star$</sup>,</span>
+            <span class="author-block">
+              <a href="https://pointw.github.io/">Dian Wang</a><sup>$\star$</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://zxp-s-works.github.io/">Xupeng Zhu</a><sup>$\star$</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://helpinghandslab.netlify.app/people/">Robert Platt</a><sup>$\dagger$</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://www.robinwalters.com/">Robin Walters</a><sup>$\dagger$</sup>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <div class="author-block">Northeastern Univeristy</div>
+            
+            <span class="author-block"><sup>$\star$</sup>equal conrtibution</span>
+            
+            <span class="author-block"><sup>$\dagger$</sup>equally advising</span>
+            
+            <div> <b>ICLR 2024</b><div>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://openreview.net/forum?id=UulwvAU1W0"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2401.12046"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              
+              <!-- Video Link. -->
+              <span class="link-block">
+                <a href="https://youtube.com/playlist?list=PLtEvDdcT-Ai8irdlBB7wDsfOuOIZo1ZM2&si=iBD87RsHBr5aIFXt"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code(Coming Soon)</span>
+                  </a>
+              </span>
+              <!-- Dataset Link.
+              <span class="link-block">
+                <a href="https://github.com/google/nerfies/releases/tag/0.1"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data</span>
+                  </a> -->
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-steve">
+          <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/place_cup.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-chair-tp">
+          <video poster="" id="chair-tp" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/stack_wine.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-shiba">
+          <video poster="" id="shiba" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/stack_cups.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-fullbody">
+          <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/stack_blocks.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-blueshirt">
+          <video poster="" id="blueshirt" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/phone_base.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-mask">
+          <video poster="" id="mask" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/put_plate.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Many complex robotic manipulation tasks can be decomposed as a sequence of pick and place actions. 
+            Training a robotic agent to learn this sequence over many different starting conditions typically 
+            requires many iterations or demonstrations, especially in 3D environments. In this work, 
+            we propose Fourier Transporter ($\text{FourTran}$) which leverages 
+            the two-fold $\mathrm{SE}(d)\times \mathrm{SE}(d)$  symmetry in the pick-place problem to 
+            achieve much higher sample efficiency. $\text{FourTran}$ is an open-loop behavior cloning method trained 
+            using expert demonstrations to predict pick-place actions on new environments. $\text{FourTran}$ 
+            is constrained to incorporate symmetries of the pick and place actions independently. Our method utilizes 
+            a fiber space Fourier transformation that allows for memory-efficient construction. We test our 
+            proposed network on the RLbench benchmark and achieve state-of-the-art results across various tasks.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+    <!-- Paper video. -->
+    <!-- <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Video</h2>
+        <div class="publication-video">
+          <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0"
+                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div> -->
+    <!--/ Paper video. -->
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 class="title is-3">Introduction</h2>
+        <div class="content has-text-justified">
+          <p>
+            
+            <b>Sample efficiency: </b> Robot data is notably more costly to acquire compared to that in computer vision and natural language processing (NLP), primarily due to two key factors:
+
+            1). Robot data often encompasses a combination of visual observations, goal descriptions, and corresponding actions, rendering its collection inherently more resource-intensive.
+            2). Unlike image and NLP data, which often leverage shared common sense understanding across different cultures, robot data collected within a specific setting may lack transferability to other environments. This disparity complicates the development of Artificial General Intelligence (AGI) in robotics, as data collected for one scenario may not readily apply to another.
+            Given the expense associated with acquiring robot data, a pressing question arises: can we derive effective robot policies with minimal demonstration? Presently, the emphasis lies on sample efficiency in robotics. This research specifically targets sample efficiency in the manipulation of pick-and-place tasks, aspiring to formulate a robust 3D manipulation policy with fewer than 10 robot demonstrations.
+          </p>
+
+          <p>
+            <b>Symmetry:</b> How could we achieve sample efficiency? There are many ways to achieve it but symmetry is one of the most intersting
+            methods. What is symmetry? It appears in everyone's daily life. For example, a person can grasp their coffe mug by the hanle even the position and 
+            orientation of the mug change every time. If the robot learns how to grasp the mug by the handle, could we generate the learned pick knowledge when there is 
+            a rotation or translation on the mug? If we can constrain such property inside the policy learning, it is easy to see that we can achieve better sample efficiency.
+            Data augmentation provides a way to force the neural network to learn the symmetry from the data. However, could we have a smart system that can satisfy the symmetry in nature?
+            This paper provide a general solution to levering the symmetries in manipulation pick and place problem.
+          </p>
+
+          <p><b>Action in 3D:</b> Previously, there are many works on pick and place in 2D. However, 3D policy learning is way more hard due to the
+          large action space. The action is often formatted as the (translation, orientation). In 2D case, orientation is often limited to rotations along one axis, e.g.,
+          the axis perpendicular to the image plane. 10 degree discretization in 2D results in 36 differnt rotations. However, in 3D, 10 degree 
+          discretization along each of the three axises gives us $36^3=46456$ rotations. We can imagine the action space of $R^{3}\times SO(3)$ is very large. The translation component
+          is easy to represent, e.g., voxel, pixel, filed. However, how should we model the $SO(3)$ action distribution in 3D? Since it's hard to model the 46456
+          rotations directly, one can use three 36-dimension vectors for each axis and the best action is evaluated by the multiplying the best rotation along each axis.
+          It does save the computation load, but $SO(3)$ rotations are very very intertwined! Just consider that we infer the pick location and consider the x, y and z independently. 
+          It could barely work if the distribution is unimodal and the signal is very strong. However, robot data is very diverse since they are many optimal solutions, e.g., the robot  
+          can grasp the mug handle with many differnt poses. Could we encode the entire $SO(3)$ distribution efficienctly? Yes, there are some basis functions defined in $SO(3)$
+          space and this work use the coefficients of $SO(3)$ basis functions, i.e., Winger-D matrix, to encode the $SO(3)$ distribution. The process of transforming a distribution over
+          3D rotations to coefficients of Winger-D matrix is called Fourier transform. It is the same as transforming spatial singal to frequency domain.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 class="title is-3">Method Description</h2>
+        <div class="content has-text-justified">
+          <p>
+           <b>Pick and Place: </b> Many complex robotic manipulation tasks can be decomposed as a sequence of pick and place actions.
+           This paper focuses on behavior cloning for robotic pick-and-place problems.
+           The objective of $\text{FourTran}$ is to learn a policy $p(a_t|o_t)$ where the action $a_t = (a_{\text{pick}}, a_{\text{place}})$ 
+           has pick and place components and the observation $o_t$ describes the current state of the workspace. Our model factors the policy $p(a_{t},o_{t})$ as
+          </p>
+          <p style="text-align:center"> $p(a_{t}|o_{t}) = p(a_{\text{place}}|o_t,a_{\text{pick}}) p(a_{\text{pick}} | o_t)$</p>
+          <p>Please note the place action is conditioned on the pick action. We parameterize $p(a_{\text{pick}} | o_t)$ and $p(a_{\text{place}}|o_t,a_{\text{pick}})$ as two separate neural networks.</p>
+          <p>
+            <b>Pick Symmetry:</b> $\text{FourTran}$ analyzes the pick symmetry and the place symmetry following 
+            <a href="https://arxiv.org/abs/2308.07948">(Huang et al., 2023)</a>. Intuitively, a rotation $g$ on the object to be grasped should transform
+            its optimal picking pose $(T_{\text{pick}},R_{\text{pick}})$ accordingly. The action transformation can be described as a rotation on the pick location and rotation on the pick orientation,
+            i.e., $(\rho_1(g)T_{\text{pick}}, \rho_1(g)R_{\text{pick}})$. The $\rho_1(g)$ is a tranditional 3-by-3 rotation matrix associated with $g$.
+            $\text{FourTran}$ represent $p(a_\text{pick} | o_t)$ as a steerable field $\mathbb{R}^d \to \{ SO(3) \to \mathbb{R}\}$ with <a href="https://github.com/QUVA-Lab/escnn">equivariant convolution layers</a>.
+            Considering a $128 \times 128 \times 128$ voxel grid, there is a set of coefficients of Winger-D Matrix above each voxel. A rotation or translation on $o_t$ will change
+            the steerable field accordingly.
+
+          </p> 
+            
+            <p><b>Place Symmetry:</b>
+            The place action is involved with the picked object and the placement. If there is a rotation $g_1$ acting on the pick
+            object and a rotation $g_2$ acting on the placement target, the optimal action to place the picked object is transformed from $(T_{\text{place}}, R_{\text{place}})$ to $(\rho_1(g_2)T_{\text{place}},
+            \rho_1(g_2)R_{\text{place}}\rho_1(g_1^{-1}))$. The place symmetry is sometimes referred to as bi-equivariance <a href="https://arxiv.org/abs/2206.08321">(Ryu et al., 2022)</a>. This is illustrated in figure below.
+           </p>
+           <img src="./static/images/gear.png"></img>
+           <p>Independent rotations of the gear ($g_1$) and the slot ($g_2$) result in a change ($a'=g_2 a g_1^{-1}$) in the requisite action needed to perform the insertion.
+            $\text{FourTran}$ realizes the bi-equivariance with a transporter-based architecture <a href="https://arxiv.org/abs/2010.14406">(Zeng et al., 2021)</a> shown in Figure 2.
+            Please check our paper for detailed descriptions and proofs. 
+          </p>
+           <img src="./static/images/architecture.png"></img>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 class="title is-3">Results</h2>
+        <div class="content has-text-justified">
+          <p>
+           We evaluate $\text{FourTran}$ on 5 tasks from RLbench and baseline it with 3 strong baselines. The task and results are shown in the following.
+           Besides 3D experiments, we also includes several interesting 2D experiments. Please check our paper for more details.
+          </p>
+          <img src="./static/images/3d_tasks.png"></img>
+          <img src="./static/images/results.png"></img>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <center>
+      <video id="teaser" autoplay controls muted loop playsinline width="85%" height="85%">
+        <source src="./static/videos/real_robot.mp4"
+                type="video/mp4">
+      </video>
+    </center>
+      <h3 class="subtitle has-text-centered">
+        real robot experiments (trained with 10 demos)
+      </h3>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h3 class="title">Citation</h3>
+    <pre><code>
+      @inproceedings{
+        huang2024fourier,
+        title={Fourier Transporter: Bi-Equivariant Robotic Manipulation in 3D},
+        author={Haojie Huang and Owen Lewis Howell and Dian Wang and Xupeng Zhu and Robert Platt and Robin Walters},
+        booktitle={The Twelfth International Conference on Learning Representations},
+        year={2024},
+        url={https://openreview.net/forum?id=UulwvAU1W0}}
+    </code></pre>
+  </div>
+</section>
+
+
+
+
+<footer class="footer">
+  <div class="container">
+    
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            Website design borrowed from <a href="https://github.com/nerfies/nerfies.github.io">NeRFies</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
