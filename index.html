@@ -304,8 +304,8 @@
           </p>
           <img src="./static/images/intro.png"></img>
           <p>
-            <b>Bi-equivarince:</b> Robot data is notably more costly to acquire compared to that in computer vision and natural language processing (NLP). 
-            It posed sample efficienct as an important part in robot learning. 
+            <b>Bi-equivariance:</b> Robot data is notably more costly to acquire compared to that in computer vision and natural language processing (NLP). 
+            It posed sample efficiency as an important part in robot learning. 
             Pick-place tasks are symmetric with respect to the group of
             3D rotations $SO(3)$. 
             <!-- The outcome of a grasp attempt is invariant to rotations and translations which
@@ -354,8 +354,7 @@ $f_{\text{gen}} \colon (P_a, P_B, \ell) \rightarrow (\hat{P}_{a},\hat{P}_b)$, wh
               The pick generator generates the points of the object positioned relative to the gripper point cloud. 
               Figure 3 illustrates the
               generation process of grasping the banana by the crown. We also constrained it to satisfy the equivariant pick symmetry.
-
-           
+ 
            </p>
            <img src="./static/images/pipeline.png"></img>
            <p><b>Keyframe Generation:</b> The keyfram Generation process generates the scenes of (pick, preplace, place). An example is shown in Figure 4. Finally, we trained a multi-task
@@ -378,7 +377,7 @@ $f_{\text{gen}} \colon (P_a, P_B, \ell) \rightarrow (\hat{P}_{a},\hat{P}_b)$, wh
         <h2 class="title is-3">Results</h2>
         <div class="content has-text-justified">
           <p>
-           We evaluate $\text{Imagination-Policy}$ on 6 tasks from RLbench and baseline it with 3 strong baselines. The task and results are shown in the following.
+           We evaluate $\text{Imagination-Policy}$ on 6 tasks from RLbench and baseline it with 3 strong baselines. The task and results are shown in the following figures and tables.
            Besides simulated experiments, we valided it on 3 real-robot experiments.
           </p>
           <img src="./static/images/3d_tasks.png"></img>
