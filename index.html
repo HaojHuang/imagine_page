@@ -6,7 +6,7 @@
         content="Sample efficient policy learning for manipulation in 3D">
   <meta name="keywords" content="Generative Model, Equivariance, Geometric deep learning, Manipulation">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Imagination-Policy</title>
+  <title>Imagination Policy</title>
   <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
   </script>
   <script type="text/x-mathjax-config">
@@ -259,8 +259,8 @@
         <div class="content has-text-justified">
           <p>
             Humans can imagine goal states during planning and perform actions to match those goals.
-            In this work, we propose $\text{Imagination-Policy}$, a novel multi-task key-frame policy network for solving high-precision pick and place tasks.
-            Instead of learning actions directly, $\text{Imagination-Policy}$ generates point clouds to imagine desired states which are then translated to actions 
+            In this work, we propose $\text{Imagination Policy}$, a novel multi-task key-frame policy network for solving high-precision pick and place tasks.
+            Instead of learning actions directly, $\text{Imagination Policy}$ generates point clouds to imagine desired states which are then translated to actions 
             using rigid action estimation. This transforms action inference into a local generative task. We leverage pick and place symmetries underlying the tasks in the generation process
             and achieve extremely high sample efficiency and generalizability to unseen configurations.
             Finally, we demonstrate state-of-the-art performance across various tasks on the RLbench benchmark compared with several strong baselines.
@@ -298,7 +298,7 @@
             However, most robotic policy learning algorithms directly map observations to actions, which limits transferability
             between tasks and different robots.
 
-            Inspired by how humans solve tasks, we propose $\text{Imagination-Policy}$ which generates a new point cloud combining the inputs into a desirable configuration
+            Inspired by how humans solve tasks, we propose $\text{Imagination Policy}$ which generates a new point cloud combining the inputs into a desirable configuration
             using a conditional point flow model. Compared to directly generating actions, this adds many degrees of freedom
             to the generative process which aids optimization and sensitivity to geometric interactions.
           </p>
@@ -315,7 +315,7 @@
             in a change $(a'=g_2ag_1^{-1})$ in the requisite action needed to perform the insertion. This is referred
             to as bi-equivariance. Previous works have explored bi-equivariant symmetries
             in manipulation policy learning and achieved dramatic improvements in sample efficiency. -->
-            $\text{Imagination-Policy}$ achieves bi-equivariance in a multi-task setting with key-frame control. As
+            $\text{Imagination Policy}$ achieves bi-equivariance in a multi-task setting with key-frame control. As
             shown in Figure 1 above, rotations of the flower will result in the same pick pose. Similarly, seperate
             rotations of the flower and the mug in Figure 1b will not change the generated point cloud.
           </p>
@@ -377,7 +377,7 @@ $f_{\text{gen}} \colon (P_a, P_B, \ell) \rightarrow (\hat{P}_{a},\hat{P}_b)$, wh
         <h2 class="title is-3">Results</h2>
         <div class="content has-text-justified">
           <p>
-           We evaluate $\text{Imagination-Policy}$ on 6 tasks from RLbench and baseline it with 3 strong baselines. The task and results are shown in the following figures and tables.
+           We evaluate $\text{Imagination Policy}$ on 6 tasks from RLbench and baseline it with 3 strong baselines. The task and results are shown in the following figures and tables.
            Besides simulated experiments, we valided it on 3 real-robot experiments.
           </p>
           <img src="./static/images/3d_tasks.png"></img>
